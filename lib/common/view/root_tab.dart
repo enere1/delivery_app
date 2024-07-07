@@ -1,5 +1,6 @@
 import 'package:delivery_app/common/const/colors/colors.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
+import 'package:delivery_app/restaurant/view/restaurant_screen.dart';
 import 'package:flutter/material.dart';
 
 class RootTab extends StatefulWidget {
@@ -56,11 +57,9 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
       ),
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
-        // 스와이핑으로 화면 전환 방지
         controller: _tabController,
-        // BottomNavigationBar의 controller와 동일한 컨트롤러 사용
         children: const [
-          Text('hi'),
+          RestaurantScreen(),
           Text('hi'),
           Text('hi'),
           Text('hi'),
