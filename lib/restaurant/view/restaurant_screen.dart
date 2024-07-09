@@ -11,7 +11,6 @@ class RestaurantScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final item = ref.watch(restaurantProvider);
-    print(item);
     if (item is RestaurantLoadingModel) {
       return DefaultLayout(
         appBar: AppBar(

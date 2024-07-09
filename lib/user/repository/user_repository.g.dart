@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'restaurant_repository.dart';
+part of 'user_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'restaurant_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _RestaurantRepository implements RestaurantRepository {
-  _RestaurantRepository(
+class _UserRepository implements UserRepository {
+  _UserRepository(
     this._dio, {
     this.baseUrl,
   });
@@ -19,21 +19,21 @@ class _RestaurantRepository implements RestaurantRepository {
   String? baseUrl;
 
   @override
-  Future<RestaurantModel> getRestaurants() async {
+  Future<UserModel> getMe() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': true};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<RestaurantModel>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<UserModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '',
+              '/me',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -42,7 +42,7 @@ class _RestaurantRepository implements RestaurantRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = RestaurantModel.fromJson(_result.data!);
+    final value = UserModel.fromJson(_result.data!);
     return value;
   }
 

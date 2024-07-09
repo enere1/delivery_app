@@ -1,9 +1,13 @@
 import 'package:delivery_app/common/const/colors/colors.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
 import 'package:delivery_app/restaurant/view/restaurant_screen.dart';
+import 'package:delivery_app/user/view/login.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RootTab extends StatefulWidget {
+  static String get routeName => 'home';
+
   const RootTab({Key? key}) : super(key: key);
 
   @override

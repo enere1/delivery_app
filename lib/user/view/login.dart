@@ -1,26 +1,33 @@
 import 'package:delivery_app/common/component/login_text_form_field.dart';
 import 'package:delivery_app/common/const/colors/colors.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
+import 'package:delivery_app/restaurant/view/restaurant_screen.dart';
+import 'package:delivery_app/user/model/user_model.dart';
+import 'package:delivery_app/user/provider/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Login extends StatefulWidget {
+class Login extends ConsumerStatefulWidget {
+  static String get routeName => 'Login';
   const Login({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  ConsumerState<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>(); // GlobalKey for Form
-  final _mailFocusNode = FocusNode();
+class _LoginState extends ConsumerState<Login> {
+  final formKey = GlobalKey<FormState>(); // GlobalKey for Form
+  final mailFocusNode = FocusNode();
+  String id = '';
+  String password = '';
 
   @override
   void initState() {
     super.initState();
-    _mailFocusNode.addListener(() {
-      if (!_mailFocusNode.hasFocus) {
-        if (_formKey.currentState != null) {
-          _formKey.currentState!.validate();
+    mailFocusNode.addListener(() {
+      if (!mailFocusNode.hasFocus) {
+        if (formKey.currentState != null) {
+          formKey.currentState!.validate();
         }
       }
     });
@@ -31,7 +38,7 @@ class _LoginState extends State<Login> {
     return DefaultLayout(
       body: SafeArea(
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Padding(
             padding: EdgeInsets.all(16.0),
             child: Column(
@@ -54,7 +61,7 @@ class _LoginState extends State<Login> {
                 ),
                 Image.asset(
                   'asset/img/misc/logo.png',
-                  height: 330,
+                  height: 280,
                   fit: BoxFit.cover,
                 ),
                 SizedBox(
@@ -63,7 +70,12 @@ class _LoginState extends State<Login> {
                 LoginTextFormField(
                   label: 'login',
                   isPassword: false,
-                  focusNode: _mailFocusNode,
+                  focusNode: mailFocusNode,
+                  onSaved: (String? val) {
+                    setState(() {
+                      id = val!;
+                    });
+                  },
                 ),
                 SizedBox(
                   height: 12.0,
@@ -71,6 +83,11 @@ class _LoginState extends State<Login> {
                 LoginTextFormField(
                   label: 'password',
                   isPassword: true,
+                  onSaved: (String? val) {
+                    setState(() {
+                      password = val!;
+                    });
+                  },
                 ),
                 SizedBox(
                   height: 16.0,
@@ -78,7 +95,12 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      formKey.currentState!.save();
+                      ref
+                          .read(userProvider.notifier)
+                          .login(id: id, password: password);
+                    },
                     child: Text('ログイン'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PRIMARY_COLOR,

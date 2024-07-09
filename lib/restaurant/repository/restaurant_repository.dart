@@ -1,4 +1,4 @@
-import 'package:delivery_app/common/const/colors/ip.dart';
+import 'package:delivery_app/common/const/data/data.dart';
 import 'package:delivery_app/common/dio/dio.dart';
 import 'package:delivery_app/restaurant/model/restaurant_model.dart';
 import 'package:retrofit/retrofit.dart';
@@ -23,7 +23,7 @@ abstract class RestaurantRepository {
   
   @GET('')
   @Headers({
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzIwMzU5NTc1LCJleHAiOjE3MjAzNTk4NzV9.TgpwI4oRBqe4cNQHuV4ChAIi7FJs-y4YQUSaWyFxAa8'
+    'accessToken': true
   })
   Future<RestaurantModel> getRestaurants();
 }

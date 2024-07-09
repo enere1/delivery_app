@@ -6,10 +6,12 @@ class LoginTextFormField extends StatefulWidget {
   final String label;
   final bool isPassword;
   final FocusNode? focusNode;
+  final FormFieldSetter<String> onSaved;
 
   const LoginTextFormField({
     required this.label,
     required this.isPassword,
+    required this.onSaved,
     this.focusNode,
     Key? key,
   }) : super(key: key);
@@ -28,6 +30,7 @@ class _LoginTextFormFieldState extends State<LoginTextFormField> {
       validator: widget.isPassword ? null : _validateMail,
       obscureText: widget.isPassword ? _isObscure : false,
       focusNode: widget.focusNode,
+      onSaved: widget.onSaved,
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -76,7 +79,6 @@ class _LoginTextFormFieldState extends State<LoginTextFormField> {
                 icon: Icon(Icons.visibility_off),
                 onPressed: () {
                   setState(() {
-                    print(_isObscure);
                     _isObscure = !_isObscure;
                   });
                 },
@@ -87,7 +89,6 @@ class _LoginTextFormFieldState extends State<LoginTextFormField> {
   }
 
   String? _validateMail(String? value) {
-    print(value);
     if (value == null || value.isEmpty) {
       setState(() {
         _hasError = true;

@@ -1,4 +1,6 @@
-import 'package:delivery_app/common/const/colors/ip.dart';
+import 'dart:convert';
+
+import 'package:delivery_app/common/const/data/data.dart';
 
 class DataUtils {
 
@@ -6,4 +8,10 @@ class DataUtils {
     return '$DOMAIN$path';
   }
 
+  static String toBasic64(String str) {
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    String encoded = stringToBase64.encode(str);
+
+    return encoded;
+  }
 }

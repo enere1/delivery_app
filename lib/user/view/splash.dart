@@ -3,6 +3,8 @@ import 'package:delivery_app/common/layout/default_layout.dart';
 import 'package:flutter/material.dart';
 
 class Splash extends StatelessWidget {
+  static String get routeName => 'Splash';
+
   const Splash({Key? key}) : super(key: key);
 
   @override
@@ -15,7 +17,6 @@ class Splash extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // TODO: ユーザー情報ある→home / ない場合 -> login
               Image.asset('asset/img/logo/logo.png',
                 width: 400,
                 height: 100,
