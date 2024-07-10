@@ -2,6 +2,7 @@ import 'package:delivery_app/auth/repository/auth_repository.dart';
 import 'package:delivery_app/common/const/data/data.dart';
 import 'package:delivery_app/common/secureStorage/secure_storage.dart';
 import 'package:delivery_app/common/view/root_tab.dart';
+import 'package:delivery_app/restaurant/view/restaurant_detail_screen.dart';
 import 'package:delivery_app/user/model/user_model.dart';
 import 'package:delivery_app/user/provider/user_provider.dart';
 import 'package:delivery_app/user/view/login.dart';
@@ -32,6 +33,15 @@ class AuthNotifier extends ChangeNotifier {
           path: '/',
           name: RootTab.routeName,
           builder: (_, __) => const RootTab(),
+          routes: [
+            GoRoute(
+              path: 'restaurant/:id',
+              name: RestaurantDetailScreen.routeName,
+              builder: (context, state) =>  RestaurantDetailScreen(id:
+                state.pathParameters['id']!,
+              ),
+            )
+          ]
         ),
         GoRoute(
           path: '/splash',
@@ -68,10 +78,14 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   Future<void> getNewAccessToken() async {
-    final repository = ref.read(authRepositoryProvider);
-    final tokenModel = await repository.getNewAccessToken();
+    try {
+      final repository = ref.read(authRepositoryProvider);
+      final tokenModel = await repository.getNewAccessToken();
 
-    final secureStorage = ref.read(secureStorageProvider);
-    await secureStorage.write(key: ACCESS_TOKEN, value: tokenModel.accessToken);
+      final secureStorage = ref.read(secureStorageProvider);
+      await secureStorage.write(key: ACCESS_TOKEN, value: tokenModel.accessToken);
+    } catch(error) {
+      print('getNewAccessToken error:${error}');
+    }
   }
 }
