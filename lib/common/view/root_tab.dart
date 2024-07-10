@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class RootTab extends StatefulWidget {
-  static String get routeName => 'home';
+  static String get routeName => 'RootTab';
 
   const RootTab({Key? key}) : super(key: key);
 
