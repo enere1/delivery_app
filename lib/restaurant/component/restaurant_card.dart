@@ -1,4 +1,5 @@
 import 'package:delivery_app/common/const/colors/colors.dart';
+import 'package:delivery_app/restaurant/model/restaurant_detail_model.dart';
 import 'package:delivery_app/restaurant/model/restaurant_model.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,9 @@ class RestaurantCard extends StatelessWidget {
   final int deliveryTime;
   final int deliveryFee;
 
+  final bool? isDetail;
+  final String? detail;
+
   const RestaurantCard(
       {required this.name,
       required this.thumbUrl,
@@ -21,24 +25,28 @@ class RestaurantCard extends StatelessWidget {
       required this.ratingsCount,
       required this.deliveryFee,
       required this.deliveryTime,
+      this.isDetail = false,
+      this.detail,
       Key? key})
       : super(key: key);
 
-  factory RestaurantCard.fromModel(RestaurantItem model) {
+  factory RestaurantCard.fromModel(RestaurantItem model, {bool? isDetail}) {
     return RestaurantCard(
-        name: model.name,
-        thumbUrl: model.thumbUrl,
-        tags: model.tags,
-        priceRange: model.priceRange,
-        ratings: model.ratings,
-        ratingsCount: model.ratingsCount,
-        deliveryFee: model.deliveryFee,
-        deliveryTime: model.deliveryTime);
+      name: model.name,
+      thumbUrl: model.thumbUrl,
+      tags: model.tags,
+      priceRange: model.priceRange,
+      ratings: model.ratings,
+      ratingsCount: model.ratingsCount,
+      deliveryFee: model.deliveryFee,
+      deliveryTime: model.deliveryTime,
+      isDetail: isDetail,
+      detail: model is RestaurantDetailModel ? model.detail : null,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -88,7 +96,15 @@ class RestaurantCard extends StatelessWidget {
                 label: deliveryFee.toString(),
               ),
             ],
-          )
+          ),
+          if (isDetail == true)
+            Column(
+              children: [
+                SizedBox(height: 8.0,),
+                Text(detail!),
+                SizedBox(height: 8.0,),
+              ],
+            )
         ],
       ),
     );

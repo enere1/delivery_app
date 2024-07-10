@@ -19,6 +19,11 @@ class RestaurantModel extends RestaurantBaseModel {
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
       _$RestaurantModelFromJson(json);
+
+  RestaurantModel copyWith({
+    Meta? meta,
+    List<RestaurantItem>? data,
+  }) => RestaurantModel(meta: meta ?? this.meta, data: data ?? this.data);
 }
 
 @JsonSerializable()
