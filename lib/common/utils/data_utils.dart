@@ -14,4 +14,9 @@ class DataUtils {
 
     return encoded;
   }
+
+  static List<String> pathToURLForList(List list) {
+
+    return list.map((e) => pathToURL(e)).toList();
+  }
 }

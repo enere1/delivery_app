@@ -6,7 +6,7 @@ part 'product_model.g.dart';
 @JsonSerializable()
 class ProductModel {
   final String id;
-  final RestaurantItem restaurant;
+  final RestaurantModel restaurant;
   final String name;
   final String detail;
   @JsonKey(

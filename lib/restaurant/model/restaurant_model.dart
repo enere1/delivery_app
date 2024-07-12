@@ -1,43 +1,11 @@
+import 'package:delivery_app/common/model/pagination_model.dart';
 import 'package:delivery_app/common/utils/data_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'restaurant_model.g.dart';
 
-abstract class RestaurantBaseModel {}
-
-class RestaurantLoadingModel extends RestaurantBaseModel {}
-
 @JsonSerializable()
-class RestaurantModel extends RestaurantBaseModel {
-  final Meta meta;
-  final List<RestaurantItem> data;
-
-  RestaurantModel({
-    required this.meta,
-    required this.data,
-  });
-
-  factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantModelFromJson(json);
-
-  RestaurantModel copyWith({
-    Meta? meta,
-    List<RestaurantItem>? data,
-  }) => RestaurantModel(meta: meta ?? this.meta, data: data ?? this.data);
-}
-
-@JsonSerializable()
-class Meta {
-  final int count;
-  final bool hasMore;
-
-  Meta({required this.count, required this.hasMore});
-
-  factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
-}
-
-@JsonSerializable()
-class RestaurantItem {
+class RestaurantModel {
   final String id;
   final String name;
   @JsonKey(fromJson: DataUtils.pathToURL)
@@ -49,7 +17,7 @@ class RestaurantItem {
   final int deliveryTime;
   final int deliveryFee;
 
-  RestaurantItem(
+  RestaurantModel(
       {required this.id,
       required this.name,
       required this.thumbUrl,
@@ -60,14 +28,7 @@ class RestaurantItem {
       required this.deliveryTime,
       required this.deliveryFee});
 
-  factory RestaurantItem.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantItemFromJson(json);
-}
+  factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantModelFromJson(json);
 
-class RestaurantFetchingMoreModel extends RestaurantModel {
-  RestaurantFetchingMoreModel({required super.meta, required super.data});
-}
-
-class RestaurantReFetchingModel extends RestaurantModel {
-  RestaurantReFetchingModel({required super.meta, required super.data});
 }

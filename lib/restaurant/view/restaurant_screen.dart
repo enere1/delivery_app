@@ -1,4 +1,5 @@
 import 'package:delivery_app/common/layout/default_layout.dart';
+import 'package:delivery_app/common/model/pagination_model.dart';
 import 'package:delivery_app/restaurant/component/restaurant_card.dart';
 import 'package:delivery_app/restaurant/model/restaurant_model.dart';
 import 'package:delivery_app/restaurant/provider/restaurant_provider.dart';
@@ -13,7 +14,7 @@ class RestaurantScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final item = ref.watch(restaurantProvider);
-    if (item is RestaurantLoadingModel) {
+    if (item is PaginationLoadingModel) {
       return DefaultLayout(
         appBar: AppBar(
           title: Text(
@@ -27,7 +28,7 @@ class RestaurantScreen extends ConsumerWidget {
       );
     }
 
-    final restaurant = item as RestaurantModel;
+    final restaurant = item as PaginationModel;
     return DefaultLayout(
       appBar: AppBar(
         title: Text(

@@ -19,14 +19,14 @@ class _RestaurantRepository implements RestaurantRepository {
   String? baseUrl;
 
   @override
-  Future<RestaurantModel> getRestaurants() async {
+  Future<PaginationModel<RestaurantModel>> paginate() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': true};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<RestaurantModel>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<PaginationModel<RestaurantModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -42,7 +42,10 @@ class _RestaurantRepository implements RestaurantRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = RestaurantModel.fromJson(_result.data!);
+    final value = PaginationModel<RestaurantModel>.fromJson(
+      _result.data!,
+      (json) => RestaurantModel.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 
@@ -71,6 +74,36 @@ class _RestaurantRepository implements RestaurantRepository {
               baseUrl,
             ))));
     final value = RestaurantDetailModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<PaginationModel<RatingModel>> getRestaurantRating(String id) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<PaginationModel<RatingModel>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/${id}/rating',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = PaginationModel<RatingModel>.fromJson(
+      _result.data!,
+      (json) => RatingModel.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 
