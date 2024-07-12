@@ -11,7 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-final authProvider = ChangeNotifierProvider<AuthNotifier>((ref){
+final authProvider = ChangeNotifierProvider<AuthNotifier>((ref) {
   return AuthNotifier(ref: ref);
 });
 
@@ -30,19 +30,18 @@ class AuthNotifier extends ChangeNotifier {
   //goRouter作り
   List<GoRoute> get routes => [
         GoRoute(
-          path: '/',
-          name: RootTab.routeName,
-          builder: (_, __) => const RootTab(),
-          routes: [
-            GoRoute(
-              path: 'restaurant/:id',
-              name: RestaurantDetailScreen.routeName,
-              builder: (context, state) =>  RestaurantDetailScreen(id:
-                state.pathParameters['id']!,
-              ),
-            )
-          ]
-        ),
+            path: '/',
+            name: RootTab.routeName,
+            builder: (_, __) => const RootTab(),
+            routes: [
+              GoRoute(
+                path: 'restaurant/:id',
+                name: RestaurantDetailScreen.routeName,
+                builder: (context, state) => RestaurantDetailScreen(
+                  id: state.pathParameters['id']!,
+                ),
+              )
+            ]),
         GoRoute(
           path: '/splash',
           name: Splash.routeName,
@@ -57,7 +56,6 @@ class AuthNotifier extends ChangeNotifier {
 
   // リダイレクト
   String? redirect(BuildContext context, GoRouterState state) {
-
     final userModel = ref.read(userProvider);
     final isLoginPage = state.location == '/login';
     print('isLoginPage: $isLoginPage state.location: ${state.location}');
@@ -78,14 +76,23 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   Future<void> getNewAccessToken() async {
-    try {
-      final repository = ref.read(authRepositoryProvider);
-      final tokenModel = await repository.getNewAccessToken();
+    print('getNewAccessToken');
 
-      final secureStorage = ref.read(secureStorageProvider);
-      await secureStorage.write(key: ACCESS_TOKEN, value: tokenModel.accessToken);
-    } catch(error) {
-      print('getNewAccessToken error:${error}');
+    final secureStorage = ref.read(secureStorageProvider);
+    final accessToken = await secureStorage.read(key: ACCESS_TOKEN);
+    final refreshToken = await secureStorage.read(key: REFRESH_TOKEN);
+
+    if (accessToken == null || refreshToken == null) {
+      return;
     }
+
+    final repository = ref.read(authRepositoryProvider);
+    final tokenModel = await repository.getNewAccessToken();
+
+    await secureStorage.write(key: ACCESS_TOKEN, value: tokenModel.accessToken);
+  }
+
+  Future<void> logout() async {
+    await ref.read(userProvider.notifier).logout();
   }
 }

@@ -1,4 +1,5 @@
 
+import 'package:delivery_app/common/utils/data_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_model.g.dart';

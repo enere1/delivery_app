@@ -34,7 +34,7 @@ class UserNotifier extends StateNotifier<UserBaseModel?> {
   }
 
   Future<void> getMe() async {
-
+    print('getMe');
     final accessToken = await secureStorage.read(key: ACCESS_TOKEN);
     final refreshToken = await secureStorage.read(key: REFRESH_TOKEN);
     if (accessToken == null || refreshToken == null) {
@@ -60,4 +60,10 @@ class UserNotifier extends StateNotifier<UserBaseModel?> {
     final user = await userRepository.getMe();
     state = user;
   }
+
+  Future<void> logout() async {
+    state = null;
+    await secureStorage.deleteAll();
+  }
+
 }
