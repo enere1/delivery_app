@@ -6,17 +6,17 @@ part of 'product_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
+ProductItem _$ProductItemFromJson(Map<String, dynamic> json) => ProductItem(
       id: json['id'] as String,
       restaurant:
-          RestaurantModel.fromJson(json['restaurant'] as Map<String, dynamic>),
+          RestaurantItem.fromJson(json['restaurant'] as Map<String, dynamic>),
       name: json['name'] as String,
       detail: json['detail'] as String,
       imgUrl: DataUtils.pathToURL(json['imgUrl'] as String),
       price: (json['price'] as num).toInt(),
     );
 
-Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
+Map<String, dynamic> _$ProductItemToJson(ProductItem instance) =>
     <String, dynamic>{
       'id': instance.id,
       'restaurant': instance.restaurant,

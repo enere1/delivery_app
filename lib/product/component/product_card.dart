@@ -16,7 +16,7 @@ class ProductCard extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  factory ProductCard.fromProductModel(ProductModel model) {
+  factory ProductCard.fromProductItem(ProductItem model) {
     return ProductCard(
         name: model.name,
         detail: model.detail,
