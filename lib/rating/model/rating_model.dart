@@ -1,3 +1,4 @@
+import 'package:delivery_app/common/model/model_with_id.dart';
 import 'package:delivery_app/common/model/pagination_model.dart';
 import 'package:delivery_app/common/utils/data_utils.dart';
 import 'package:delivery_app/user/model/user_model.dart';
@@ -6,20 +7,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'rating_model.g.dart';
 
 @JsonSerializable()
-class RatingModel extends PaginationModel<RatingItem> {
+class RatingItem extends ModelWithId {
 
-  RatingModel({
-    required super.meta,
-    required super.data,
-  });
-
-  factory RatingModel.fromJson(Map<String, dynamic> json) =>
-      _$RatingModelFromJson(json);
-}
-
-@JsonSerializable()
-class RatingItem {
-  final String id;
   @JsonKey(
     fromJson: DataUtils.pathToURLForList
   )
@@ -29,7 +18,7 @@ class RatingItem {
   final int rating;
 
   RatingItem(
-      {required this.id,
+      {required super.id,
       required this.imgUrls,
       required this.user,
       required this.content,

@@ -1,5 +1,6 @@
 import 'package:delivery_app/common/const/colors/colors.dart';
 import 'package:delivery_app/common/layout/default_layout.dart';
+import 'package:delivery_app/product/view/product_screen.dart';
 import 'package:delivery_app/restaurant/view/restaurant_screen.dart';
 import 'package:delivery_app/user/view/login.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,9 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
+      appBar: AppBar(
+        title: const Text('デリバリー'),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index) {
           setState(() {
@@ -62,9 +66,9 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
-        children: const [
+        children: [
           RestaurantScreen(),
-          Text('hi'),
+          ProductScreen(),
           Text('hi'),
           Text('hi'),
         ],

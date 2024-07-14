@@ -91,7 +91,8 @@ class RatingCard extends StatelessWidget {
                       .toList(),
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 8.0)
         ],
       ),
     );

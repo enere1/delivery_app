@@ -1,3 +1,4 @@
+import 'package:delivery_app/common/model/model_with_id.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pagination_model.g.dart';
@@ -22,11 +23,11 @@ class PaginationModel<T> extends PaginationBaseModel {
           Map<String, dynamic> json, T Function(Object? json) fromjsonT) =>
       _$PaginationModelFromJson(json, fromjsonT);
 
-  PaginationModel copyWith({
+  PaginationModel<T> copyWith({
     Meta? meta,
     List<T>? data,
   }) {
-    return PaginationModel(
+    return PaginationModel<T>(
       meta: meta ?? this.meta,
       data: data ?? this.data,
     );
@@ -43,14 +44,14 @@ class Meta {
   factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
 }
 
-class PaginationFetchingMoreModel extends PaginationModel {
+class PaginationFetchingMoreModel<T> extends PaginationModel<T> {
   PaginationFetchingMoreModel({
     required super.meta,
     required super.data,
   });
 }
 
-class PaginationReFetchingModel extends PaginationModel {
+class PaginationReFetchingModel<T> extends PaginationModel<T> {
   PaginationReFetchingModel({
     required super.meta,
     required super.data,

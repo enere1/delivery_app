@@ -19,14 +19,18 @@ class _RestaurantRepository implements RestaurantRepository {
   String? baseUrl;
 
   @override
-  Future<PaginationModel<RestaurantModel>> paginate() async {
+  Future<PaginationModel<RestaurantItem>> paginate(
+      {PaginationQueryParamsModel? paginationParams =
+          const PaginationQueryParamsModel()}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(paginationParams?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'accessToken': true};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<PaginationModel<RestaurantModel>>(Options(
+        _setStreamType<PaginationModel<RestaurantItem>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -42,9 +46,9 @@ class _RestaurantRepository implements RestaurantRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = PaginationModel<RestaurantModel>.fromJson(
+    final value = PaginationModel<RestaurantItem>.fromJson(
       _result.data!,
-      (json) => RestaurantModel.fromJson(json as Map<String, dynamic>),
+      (json) => RestaurantItem.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }
@@ -78,13 +82,13 @@ class _RestaurantRepository implements RestaurantRepository {
   }
 
   @override
-  Future<PaginationModel<RatingModel>> getRestaurantRating(String id) async {
+  Future<PaginationModel<RatingItem>> getRestaurantRating(String id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<PaginationModel<RatingModel>>(Options(
+        _setStreamType<PaginationModel<RatingItem>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -100,9 +104,9 @@ class _RestaurantRepository implements RestaurantRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = PaginationModel<RatingModel>.fromJson(
+    final value = PaginationModel<RatingItem>.fromJson(
       _result.data!,
-      (json) => RatingModel.fromJson(json as Map<String, dynamic>),
+      (json) => RatingItem.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }

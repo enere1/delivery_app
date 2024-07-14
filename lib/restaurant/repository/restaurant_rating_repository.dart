@@ -1,6 +1,7 @@
 import 'package:delivery_app/common/const/data/data.dart';
 import 'package:delivery_app/common/dio/dio.dart';
 import 'package:delivery_app/common/model/pagination_model.dart';
+import 'package:delivery_app/common/model/pagination_query_params_model.dart';
 import 'package:delivery_app/common/repository/pagination_repository.dart';
 import 'package:delivery_app/rating/model/rating_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,5 +23,8 @@ abstract class RestaurantRatingRepository
 
   @GET('/rating')
   @Headers({'accessToken': true})
-  Future<PaginationModel<RatingItem>> paginate();
+  Future<PaginationModel<RatingItem>> paginate({
+    @Queries()
+    PaginationQueryParamsModel? paginationParams = const PaginationQueryParamsModel()
+  });
 }

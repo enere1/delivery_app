@@ -1,3 +1,4 @@
+import 'package:delivery_app/common/model/model_with_id.dart';
 import 'package:delivery_app/common/model/pagination_model.dart';
 import 'package:delivery_app/common/utils/data_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -5,8 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'restaurant_model.g.dart';
 
 @JsonSerializable()
-class RestaurantModel {
-  final String id;
+class RestaurantItem extends ModelWithId{
+
   final String name;
   @JsonKey(fromJson: DataUtils.pathToURL)
   final String thumbUrl;
@@ -17,8 +18,8 @@ class RestaurantModel {
   final int deliveryTime;
   final int deliveryFee;
 
-  RestaurantModel(
-      {required this.id,
+  RestaurantItem(
+      {required super.id,
       required this.name,
       required this.thumbUrl,
       required this.tags,
@@ -28,7 +29,7 @@ class RestaurantModel {
       required this.deliveryTime,
       required this.deliveryFee});
 
-  factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantModelFromJson(json);
+  factory RestaurantItem.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantItemFromJson(json);
 
 }

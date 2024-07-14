@@ -24,10 +24,28 @@ class RestaurantDetailScreen extends ConsumerStatefulWidget {
 
 class _RestaurantDetailScreenState
     extends ConsumerState<RestaurantDetailScreen> {
+  final controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
     ref.read(restaurantProvider.notifier).getRestaurantDetail(id: widget.id);
+    controller.addListener(isLastItem);
+  }
+
+  void isLastItem() {
+    if (controller.offset > controller.position.maxScrollExtent - 300) {
+      ref
+          .read(restaurantRatingProvider(widget.id).notifier)
+          .paginate(fetchMore: true);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.removeListener(isLastItem);
+    controller.dispose();
   }
 
   @override
@@ -35,6 +53,9 @@ class _RestaurantDetailScreenState
     final targetItem = ref.watch(restaurantDetailProvider(widget.id));
     final ratingModel = ref.watch(restaurantRatingProvider(widget.id));
 
+    if (targetItem == null) {
+      return DefaultLayout(body: Center(child: CircularProgressIndicator()));
+    }
 
     return DefaultLayout(
         appBar: AppBar(
@@ -44,7 +65,7 @@ class _RestaurantDetailScreenState
           ),
         ),
         body: SafeArea(
-          child: CustomScrollView(slivers: [
+          child: CustomScrollView(controller: controller, slivers: [
             SliverToBoxAdapter(
               child: RestaurantCard.fromModel(
                 targetItem,
@@ -59,7 +80,7 @@ class _RestaurantDetailScreenState
                     final product = targetItem.products[index];
                     return Padding(
                         padding: EdgeInsets.only(top: 16.0),
-                        child: ProductCard.fromProductModel(product));
+                        child: ProductCard.fromProductItem(product));
                   },
                   childCount: targetItem.products.length,
                 ),
@@ -67,13 +88,20 @@ class _RestaurantDetailScreenState
             if (ratingModel is PaginationModel)
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                      (context, index) {
+                  (context, index) {
+                    if (index == ratingModel.data.length) {
+                      return ratingModel.meta.hasMore
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Center(child: Text('nomore'));
+                    }
                     final ratingItem = ratingModel.data[index] as RatingItem;
                     return Padding(
                         padding: EdgeInsets.only(top: 16.0),
                         child: RatingCard.fromModel(ratingItem));
                   },
-                  childCount: ratingModel.data.length,
+                  childCount: ratingModel.data.length + 1,
                 ),
               ),
           ]),

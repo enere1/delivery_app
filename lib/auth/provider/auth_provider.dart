@@ -2,6 +2,7 @@ import 'package:delivery_app/auth/repository/auth_repository.dart';
 import 'package:delivery_app/common/const/data/data.dart';
 import 'package:delivery_app/common/secureStorage/secure_storage.dart';
 import 'package:delivery_app/common/view/root_tab.dart';
+import 'package:delivery_app/product/view/product_screen.dart';
 import 'package:delivery_app/restaurant/view/restaurant_detail_screen.dart';
 import 'package:delivery_app/user/model/user_model.dart';
 import 'package:delivery_app/user/provider/user_provider.dart';

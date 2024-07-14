@@ -20,7 +20,7 @@ RestaurantDetailModel _$RestaurantDetailModelFromJson(
       deliveryFee: (json['deliveryFee'] as num).toInt(),
       detail: json['detail'] as String,
       products: (json['products'] as List<dynamic>)
-          .map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => ProductItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
