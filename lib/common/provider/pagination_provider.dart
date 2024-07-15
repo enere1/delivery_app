@@ -3,7 +3,7 @@ import 'package:delivery_app/common/model/pagination_model.dart';
 import 'package:delivery_app/common/model/pagination_query_params_model.dart';
 import 'package:delivery_app/common/repository/pagination_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:retrofit/retrofit.dart';
+import 'package:easy_debounce/easy_throttle.dart';
 
 abstract class PaginationNotifier<T extends ModelWithId,
         U extends IBasePaginationRepository<T>>
@@ -16,7 +16,7 @@ abstract class PaginationNotifier<T extends ModelWithId,
     paginate();
   }
 
-  Future<void> paginate({
+  Future<void> _paginate({
     int count = 20,
     bool fetchMore = false,
     bool reFetch = false,
@@ -30,16 +30,19 @@ abstract class PaginationNotifier<T extends ModelWithId,
       return;
     }
 
-    PaginationQueryParamsModel paginationParam = PaginationQueryParamsModel(count: count);
+    PaginationQueryParamsModel paginationParam =
+        PaginationQueryParamsModel(count: count);
 
     if (reFetch == true) {
       final pState = state as PaginationModel<T>;
-      state = PaginationReFetchingModel<T>(meta: pState.meta, data: pState.data);
+      state =
+          PaginationReFetchingModel<T>(meta: pState.meta, data: pState.data);
     }
 
     if (fetchMore == true) {
       final pState = state as PaginationModel<T>;
-      state = PaginationFetchingMoreModel<T>(meta: pState.meta, data: pState.data);
+      state =
+          PaginationFetchingMoreModel<T>(meta: pState.meta, data: pState.data);
       paginationParam = paginationParam.copyWith(
         after: pState.data.last.id,
       );
@@ -52,14 +55,19 @@ abstract class PaginationNotifier<T extends ModelWithId,
       final pState = state as PaginationFetchingMoreModel<T>;
 
       state = pState.copyWith(
-        meta: paginatModel.meta,
-        data: [
-          ...pState.data,
-          ...paginatModel.data
-        ]
-      );
+          meta: paginatModel.meta,
+          data: [...pState.data, ...paginatModel.data]);
     } else {
       state = paginatModel;
     }
+  }
+
+  Future<void> paginate({
+    int count = 20,
+    bool fetchMore = false,
+    bool reFetch = false,
+  }) async {
+    EasyThrottle.throttle('my-throttler', Duration(milliseconds: 1500),
+        () => _paginate(count: count, fetchMore: fetchMore, reFetch: reFetch));
   }
 }

@@ -4,6 +4,10 @@ import 'package:delivery_app/common/const/data/data.dart';
 
 class DataUtils {
 
+  static DateTime StringToDateTime(String strDateTime) {
+    return DateTime.parse(strDateTime);
+  }
+
   static String pathToURL(String path) {
     return '$DOMAIN$path';
   }

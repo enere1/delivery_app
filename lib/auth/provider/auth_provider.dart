@@ -2,11 +2,14 @@ import 'package:delivery_app/auth/repository/auth_repository.dart';
 import 'package:delivery_app/common/const/data/data.dart';
 import 'package:delivery_app/common/secureStorage/secure_storage.dart';
 import 'package:delivery_app/common/view/root_tab.dart';
+import 'package:delivery_app/order/view/order_done_screen.dart';
 import 'package:delivery_app/product/view/product_screen.dart';
+import 'package:delivery_app/restaurant/view/basket_screen.dart';
 import 'package:delivery_app/restaurant/view/restaurant_detail_screen.dart';
 import 'package:delivery_app/user/model/user_model.dart';
 import 'package:delivery_app/user/provider/user_provider.dart';
 import 'package:delivery_app/user/view/login.dart';
+import 'package:delivery_app/user/view/profile_screen.dart';
 import 'package:delivery_app/user/view/splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -41,8 +44,13 @@ class AuthNotifier extends ChangeNotifier {
                 builder: (context, state) => RestaurantDetailScreen(
                   id: state.pathParameters['id']!,
                 ),
-              )
+              ),
             ]),
+        GoRoute(
+          path: '/orderDone',
+          name: OrderDoneScreen.routeName,
+          builder: (_, __) => OrderDoneScreen(),
+        ),
         GoRoute(
           path: '/splash',
           name: Splash.routeName,
@@ -52,6 +60,16 @@ class AuthNotifier extends ChangeNotifier {
           path: '/login',
           name: Login.routeName,
           builder: (_, __) => const Login(),
+        ),
+        GoRoute(
+          path: '/basket',
+          name: BasketScreen.routeName,
+          builder: (_, __) => const BasketScreen(),
+        ),
+        GoRoute(
+          path: '/profile',
+          name: ProfileScreen.routeName,
+          builder: (_, __) => ProfileScreen(),
         ),
       ];
 

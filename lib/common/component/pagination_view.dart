@@ -31,7 +31,7 @@ class _PaginationViewState<T extends ModelWithId> extends ConsumerState<Paginati
   }
 
   void isLastItem() {
-    if (controller.offset > controller.position.maxScrollExtent - 300) {
+    if (controller.offset > controller.position.maxScrollExtent - 200) {
       ref.read(widget.provider.notifier).paginate(fetchMore: true);
     }
   }
@@ -73,7 +73,7 @@ class _PaginationViewState<T extends ModelWithId> extends ConsumerState<Paginati
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
-                : Center(child: Text('nomore'));
+                : null;
           }
           final item = model.data[index];
           return widget.builder(context, index, item);
